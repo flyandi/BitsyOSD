@@ -1,0 +1,3 @@
+# BitsyOSD Ignores
+internal/
+.DS_STORE
