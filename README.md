@@ -8,7 +8,7 @@ BitsyOSD is a minimalistic OSD based on the works of ArduCam and minimNaza. It's
 
 There are plenty of options out there but I needed something very simple that just works and was small - I looked at all the other great projects which provide a lot of configurations and options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that allows
 
-(https://www.youtube.com/watch?v=92WtLzoAQVY)
+![Video](https://www.youtube.com/watch?v=92WtLzoAQVY)
 
 ## Features
 
@@ -27,8 +27,8 @@ Currently BitsyOSD implements the following values in a fixed layout that is par
 
 **Please be aware that BitsyOSD doesn't have any outside configuration possibilities and all modifications need to be done via the code base**
 
-(https://github.com/FPVTools/BitsyOSD/blob/master/docs/00123333.jpg)
-(https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-main-screen.png)
+![Screen1](https://github.com/FPVTools/BitsyOSD/blob/master/docs/00123333.jpg)
+![Screen2](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-main-screen.png)
 
 ## Get Started
 
@@ -75,7 +75,7 @@ node uploadfont.js
 
 This process may take some time and you should see the new font set on your display if you have a screen connected.
 
-(https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-font-upload.jpg)
+![Font](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-font-upload.jpg)
 
 ### Upload the firmware
 
