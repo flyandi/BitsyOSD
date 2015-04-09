@@ -12,7 +12,7 @@ There are plenty of options out there but I needed something very simple that ju
 
 Check out the video below for a quick introduction:
 
-[![Video](http://img.youtube.com/vi/92WtLzoAQVY/0.jpg)](http://www.youtube.com/watch?v=92WtLzoAQVY)
+[![Video](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-animation.gif)](http://www.youtube.com/watch?v=92WtLzoAQVY)
 
 ## Features
 
