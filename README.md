@@ -8,7 +8,11 @@ BitsyOSD is a minimalistic OSD based on the works of ArduCam and minimNaza. It's
 
 There are plenty of options out there but I needed something very simple that just works and was small - I looked at all the other great projects which provide a lot of configurations and options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that allows
 
-![Video](https://www.youtube.com/watch?v=92WtLzoAQVY)
+## Video
+
+Check out the video below for a quick introduction:
+
+[![Video](http://img.youtube.com/vi/92WtLzoAQVY/0.jpg)](http://www.youtube.com/watch?v=92WtLzoAQVY)
 
 ## Features
 
