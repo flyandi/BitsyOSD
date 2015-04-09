@@ -14,6 +14,10 @@ Check out the video below for a quick introduction:
 
 [![Video](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-animation.gif)](http://www.youtube.com/watch?v=92WtLzoAQVY)
 
+Full video at 
+http://www.youtube.com/watch?v=92WtLzoAQVY
+
+
 ## Features
 
 Currently BitsyOSD implements the following values in a fixed layout that is partially configurable or can be easily adapted via the code. 
