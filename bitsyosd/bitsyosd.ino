@@ -10,7 +10,9 @@ For minimOSD compatible hardware.
 
 LEGAL INFORMATION
 
-Copyright (c) 2014.  All rights reserved.
+http://github.com/FPVTools/BitsyOSD
+
+Copyright (c) 2015.  All rights reserved.
 Author: Andreas Schwarz-Gulley
 Version: 1.0
 
