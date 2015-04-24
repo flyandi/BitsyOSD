@@ -13,7 +13,14 @@
 
 #include <Stream.h>
 #include <avr/pgmspace.h>
-#include "../AP_Common/AP_Common.h"
+
+// Backwards compatibility for older GCC compiler 
+typedef struct {
+    char c;
+} prog_char_t;
+
+#define prog_char char PROGMEM
+
 
 class BetterStream : public Stream {
 public:

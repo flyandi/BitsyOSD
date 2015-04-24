@@ -47,7 +47,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 #undef PSTR 
 #define PSTR(s) (__extension__({static prog_char __c[] PROGMEM = (s); &__c[0];})) 
 
-
 /** 
   * (Includes)
   */

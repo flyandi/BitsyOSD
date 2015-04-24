@@ -28,8 +28,6 @@
 //      Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-
-//#include "../AP_Common/AP_Common.h"
 #include "FastSerial.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100

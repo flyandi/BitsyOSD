@@ -11,6 +11,17 @@
 
 #define MAX_BUFFER_SIZE 1000
 
+
+struct WindowsPlatformOptions : OpenBatonPlatformOptions
+{
+};
+
+OpenBatonPlatformOptions* ParsePlatformOptions(const v8::Local<v8::Object>& options){
+  // currently none
+  return new WindowsPlatformOptions();
+}
+
+
 // Declare type of pointer to CancelIoEx function
 typedef BOOL (WINAPI *CancelIoExType)(HANDLE hFile, LPOVERLAPPED lpOverlapped);
 
@@ -151,6 +162,45 @@ public:
   NanCallback* errorCallback;
   NanCallback* disconnectedCallback;
 };
+
+void EIO_Set(uv_work_t* req) {
+  SetBaton* data = static_cast<SetBaton*>(req->data);
+
+  if (data->rts) {
+    EscapeCommFunction((HANDLE)data->fd, SETRTS);
+  }else{
+    EscapeCommFunction((HANDLE)data->fd, CLRRTS);
+  }
+
+  if (data->dtr) {
+    EscapeCommFunction((HANDLE)data->fd, SETDTR);
+  }else{
+    EscapeCommFunction((HANDLE)data->fd, CLRDTR);
+  }
+
+  if (data->brk) {
+    EscapeCommFunction((HANDLE)data->fd, SETBREAK);
+  }else{
+    EscapeCommFunction((HANDLE)data->fd, CLRBREAK);
+  }
+
+  DWORD bits = 0;
+
+  GetCommMask((HANDLE)data->fd, &bits);
+
+  bits &= ~( EV_CTS | EV_DSR);
+  
+  if (data->cts) {
+    bits |= EV_CTS;
+  }
+
+  if (data->dsr) {
+    bits |= EV_DSR;
+  }
+
+  data->result = SetCommMask((HANDLE)data->fd, bits);
+}
+
 
 void EIO_WatchPort(uv_work_t* req) {
   WatchPortBaton* data = static_cast<WatchPortBaton*>(req->data);
