@@ -78,7 +78,11 @@ tweak to your likening.
   *
   */
 
-#define GPS_SPEED 9600 //115200 //9600
+// Ublox
+#define GPS_SPEED 9600 
+
+// DJI
+//#define GPS_SPEED 115200
 
 
 /**

@@ -93,6 +93,9 @@ void setup() {
     // select osd output
     pinMode(MAX7456_SELECT,  OUTPUT); 
     
+    // led
+    pinMode(LED_PIN, OUTPUT);
+    
     // start serial
     Serial.begin(GPS_SPEED);
     
@@ -386,6 +389,21 @@ void UpdateDisplay() {
       MessageAlert(true, "NO GPS");
     }
   }
-  
 }
 
+
+/**
+  * (Heartbeat) Heartbeat Actions
+  */
+
+void Heartbeat() {
+  
+  if(runtime.ledtimeout + LED_HEARTBEAT < millis()) {
+    
+     runtime.ledtimeout = millis();
+  
+     runtime.ledstatus = !runtime.ledstatus;
+  
+     digitalWrite(LED_PIN, runtime.ledstatus ? HIGH : LOW);
+  }
+}

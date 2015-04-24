@@ -162,6 +162,12 @@
 #define GPS_TIMEOUT         4000      // timeout for lost GPS
 #define BOOTTIME            10000
 
+/** 
+ * (LED)
+ */
+
+#define LED_HEARTBEAT 800
+#define LED_PIN 13
 
 
 /** 
@@ -195,6 +201,10 @@ struct OSD_RUNTIME_VALUES {
   uint8_t gpsaltcount;
   boolean gpsacquired;
   long gpstimeout;
+  
+  // LED
+  bool ledstatus;
+  long ledtimeout;
 
   // Other
   long distance;
