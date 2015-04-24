@@ -6,7 +6,7 @@ BitsyOSD is a minimalistic OSD based on the works of ArduCam and minimNaza. It's
 
 ## Why another OSD?
 
-There are plenty of options out there but I needed something very simple that just works and was small - I looked at all the other great projects which provide a lot of configurations and options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that allows
+There are plenty of options out there but I needed something very simple that just works and was small - I looked at all the other great projects which provide a lot of configurations and options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that just provides the most essential information.
 
 ## Video
 
