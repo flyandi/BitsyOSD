@@ -61,10 +61,10 @@ tweak to your likening.
   * Uncomment one of the options below. If you want to test the OSD without GPS, use the SIM parser.
   */
 
-#define GPS_PARSER_NEMA
+//#define GPS_PARSER_NEMA
 //#define GPS_PARSER_DJI
 //#define GPS_PARSER_UBLOX
-//#define GPS_PARSER_SIM
+#define GPS_PARSER_SIM
 
 
 /** 
@@ -167,6 +167,9 @@ tweak to your likening.
   * Enables to display the battery voltage. Only supported on the Micro MinimOSD Hardware.
   * Don't forget to set the proper Voltage divider.
   *
+  * NOTE: You need to define the Voltage Divider and Battery type for each type you want to display.
+  *       Otherwise it won't compile.
+  *
   * 0 = Off (Default)
   * 1 = Bat1  (Only shows Battery 1)
   * 2 = Bat2  (Only shows Battery 2)
@@ -175,20 +178,45 @@ tweak to your likening.
 
 //#define SHOW_VOLTAGE 0
 
+
 /**
   * (Voltage Divider) 
   * 
   * If you enable the voltage display, you need to set the voltage divider to see proper
   * Battery voltages on your screen. 
   *
-  * 2s = 
-  * 1 = Bat1  (Only shows Battery 1)
-  * 2 = Bat2  (Only shows Battery 2)
-  * 3 = All   (Shows both Batteries)
+  * 2s = 0
+  * 3s = 1
+  * 4s = 2
   */
 
-//#define VOLTAGE_DIVIDER_BATTERY1 0
-//#define VOLTAGE_DIVIDER_BATTERY2 0
+#define VOLTAGE_DIVIDER_BATTERY1 10
+#define VOLTAGE_DIVIDER_BATTERY2 10
+
+
+/**
+  * (Battery Types)
+  * 
+  * For accurate display, please specify the type of Battery used on each port.
+  *
+  * 1s = 0  - Probably never been used
+  * 2s = 1
+  * 3s = 2
+  * 4s = 3  - Maximum supported by the Hardware
+  */
+
+#define TYPE_BATTERY1 2
+#define TYPE_BATTERY2 2
+
+/**
+  * (Configuration for LiPo)
+  *
+  * Specify the min and max voltage of a cell
+  *
+  */
+  
+#define CELL_MAX_VOLTAGE 4.2
+#define CELL_MIN_VOLTAGE 3.6
 
 
 /** 
@@ -203,6 +231,5 @@ tweak to your likening.
 //#define SHOW_RSSI 0
 
 
-#endif /* _CONF_ */
-  
 
+#endif /* _CONF_ */

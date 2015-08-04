@@ -148,6 +148,9 @@ void Update() {
 
   // Update the GPS Information
   UpdateGPS();
+  
+  // Update Values
+  UpdateValues();
 
   // Update the Display
   UpdateDisplay();
@@ -305,7 +308,20 @@ void UpdateDisplay() {
   
   // Permanent GPS Display
   DrawStatus(LAYOUT_GPS_X, LAYOUT_GPS_Y, true, SYMBOL_GPS);
-  DrawOneSmallValue(LAYOUT_GPS_X + 1, LAYOUT_GPS_Y, gpsdata.Satellites > 9 ? 9 : gpsdata.Satellites);     
+  DrawOneSmallValue(LAYOUT_GPS_X + 1, LAYOUT_GPS_Y, gpsdata.Satellites > 9 ? 9 : gpsdata.Satellites); 
+
+  // Permanent Voltage Display
+  #ifdef SHOW_VOLTAGE 
+
+    if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
+      DrawBattery(LAYOUT_BATTERY1_X, LAYOUT_BATTERY1_Y, runtime.voltage1, TYPE_BATTERY1);
+    }
+
+    if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
+      DrawBattery(LAYOUT_BATTERY2_X, LAYOUT_BATTERY2_Y, runtime.voltage2, TYPE_BATTERY2);
+    }
+
+  #endif 
   
   // Check GPS Status
   if(gpsdata.Status >= GPS_ACCURACY && gpsdata.Satellites >= GPS_REQUIRED_SAT) {

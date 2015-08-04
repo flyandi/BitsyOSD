@@ -306,3 +306,4 @@ bool NEMA_parse(char c) {
 }
 
 #endif /* GPS_PARSER */
+

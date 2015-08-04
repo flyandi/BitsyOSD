@@ -198,29 +198,35 @@ void DrawNumber(int x, int y, int v, int d, int mi, int ma, int font) {
 }
 
 /* (DrawBattery) Draws the Battery Status */
-void DrawBattery(int p) {
- // some sanity check
- p = p>99?99:(p<0?0:p);
- // get symbol
- int symbol = SYMBOL_BATTERY_0;
- if(p > 80) {
-  symbol = SYMBOL_BATTERY_100; 
- } else if (p > 50) {
-  symbol = SYMBOL_BATTERY_60;   
- } else if (p > 20) {
-  symbol = SYMBOL_BATTERY_30;      
- }
- // draw panel
- osd.setPanel(LAYOUT_BATTERY_X,  LAYOUT_BATTERY_Y);    
- osd.openPanel();
- // write percentage
- osd.write(FONT_LARGE + (p/10));
- osd.write(FONT_LARGE + (p%10));
- osd.write(0x4c);
- // write symbol
- osd.write(symbol); 
- osd.closePanel();   
- 
+void DrawBattery(int x, int y, float voltage, int type) {
+  
+  // calculate voltage
+  int maxVoltage = (type + 1) * CELL_MAX_VOLTAGE,
+      minVoltage = (type + 1) * CELL_MIN_VOLTAGE;
+  
+  // calculate percentage
+  int p = 100 - (((maxVoltage - voltage) * 100) / (maxVoltage - minVoltage));
+  
+  // sanity check
+  p = p > 100 ? 100 : (p < 0 ? 0 : p);
+  
+  // set symbol
+  int symbol = SYMBOL_BATTERY_0;
+  
+  if(p > 90) {
+    symbol = SYMBOL_BATTERY_100; 
+  } else if (p > 60) {
+    symbol = SYMBOL_BATTERY_60;   
+  } else if (p > 30) {
+    symbol = SYMBOL_BATTERY_30;      
+  }
+  
+  // draw text
+  osd.setPanel(x, y);
+  osd.openPanel();
+  osd.write(symbol);
+  osd.writefloat(voltage, 1);
+  osd.closePanel();    
 }
 
 
@@ -341,4 +347,5 @@ void DrawCoordinates(int x, int y, float value, int prec, byte symbol) {
 int vma(int v, int a) {
   return VIDEO_MODE == 0 ? v + a : v; 
 }  
+
 

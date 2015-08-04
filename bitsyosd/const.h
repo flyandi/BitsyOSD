@@ -81,15 +81,13 @@
 #define SYMBOL_TIMEFLY       0x7e
 #define SYMBOL_LAT           0x6e
 #define SYMBOL_LON           0x6f
+#define SYMBOL_RSSI          0x86
 
 /**
  * (Layout) 
  *
  * This defines the positions of the different values displayed on the OSD
  */
-
-#define LAYOUT_BATTERY_X      24
-#define LAYOUT_BATTERY_Y      1
 
 #define LAYOUT_SPEED_X        3
 #define LAYOUT_SPEED_Y        6
@@ -133,6 +131,12 @@
 #define LAYOUT_PROGRESS_X     12
 #define LAYOUT_PROGRESS_Y     5
 
+#define LAYOUT_BATTERY1_X     2
+#define LAYOUT_BATTERY1_Y     1
+
+#define LAYOUT_BATTERY2_X     2
+#define LAYOUT_BATTERY2_Y     2
+
 /**
  * (Control)
  * 
@@ -160,7 +164,7 @@
 #define GPS_MEASURE_PERIOD  95        // Period for meassuring distance
 #define GPS_MEASURE_FLYTIME 3         // Minimum value for meassuring flight
 #define GPS_TIMEOUT         4000      // timeout for lost GPS
-#define BOOTTIME            10000
+#define BOOTTIME            5000
 
 /** 
  * (LED)
@@ -173,8 +177,8 @@
  * (Voltage, Current and RSSI)
  */
 
-#define VOLTAGE_PIN_BATTERY1 A0
-#define VOLTAGE_PIN_BATTERY2 A2
+#define VOLTAGE_PIN_BATTERY1 A2
+#define VOLTAGE_PIN_BATTERY2 A0
 #define CURRENT_PIN A1
 #define RSSI_PIN A3 
 
@@ -223,18 +227,15 @@ struct OSD_RUNTIME_VALUES {
   long flytimelast;
 
   // RSSI
-  int16_t rssi;
-  int16_t rssiADC;
-  int16_t rssiMin;
-  int16_t rssiMax;
-  int16_t rssi_Int;
+  float rssi;
 
   // Voltage
-  uint16_t voltage1;
-  uint16_t voltage2;
+  float voltage1;
+  float voltage2;
 };
 
 
 #endif /* _CONST_ */
+
 
 

@@ -26,3 +26,4 @@ static uint32_t NEMA_lastframe_time = 0;
 
 
 #endif /* GPS_PARSER */
+
