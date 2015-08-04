@@ -271,29 +271,28 @@ void UpdateGPS() {
   */
 
 void UpdateValues() {
-
-  // Voltages
-  #ifdef SHOW_VOLTAGE 
-
-    if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
-      runtime.voltage1 = ReadVoltage(VOLTAGE_PIN_BATTERY1, VOLTAGE_DIVIDER_BATTERY1);
-    }
-
-    if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
-      runtime.voltage2 = ReadVoltage(VOLTAGE_PIN_BATTERY2, VOLTAGE_DIVIDER_BATTERY2);
-    }
-
-  #endif 
-
-  // RSSI
-  #ifdef SHOW_RSSI 
-
-    if(SHOW_RSSI == 1) {
-      runtime.rssi = analogRead(RSSI_PIN) / 4; 
-    }
-
-  #endif
-
+        
+    // Voltages
+    #ifdef SHOW_VOLTAGE 
+  
+      if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
+        runtime.voltage1 = ReadVoltage(VOLTAGE_PIN_BATTERY1, VOLTAGE_DIVIDER_BATTERY1);
+      }
+  
+      if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
+        runtime.voltage2 = ReadVoltage(VOLTAGE_PIN_BATTERY2, VOLTAGE_DIVIDER_BATTERY2);
+      }
+  
+    #endif 
+  
+    // RSSI
+    #ifdef SHOW_RSSI 
+  
+      if(SHOW_RSSI == 1) {
+        runtime.rssi = analogRead(RSSI_PIN) / 4; 
+      }
+  
+    #endif
 }
 
 
@@ -314,11 +313,11 @@ void UpdateDisplay() {
   #ifdef SHOW_VOLTAGE 
 
     if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
-      DrawBattery(LAYOUT_BATTERY1_X, LAYOUT_BATTERY1_Y, runtime.voltage1, TYPE_BATTERY1);
+      DrawBattery(LAYOUT_BATTERY1_X, LAYOUT_BATTERY1_Y, runtime.voltage1, TYPE_BATTERY1, DISPLAY_MODE_BATTERY1);
     }
 
     if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
-      DrawBattery(LAYOUT_BATTERY2_X, LAYOUT_BATTERY2_Y, runtime.voltage2, TYPE_BATTERY2);
+      DrawBattery(LAYOUT_BATTERY2_X, LAYOUT_BATTERY2_Y - (SHOW_VOLTAGE == 2 ? 1 : 0), runtime.voltage2, TYPE_BATTERY2, DISPLAY_MODE_BATTERY2);
     }
 
   #endif 

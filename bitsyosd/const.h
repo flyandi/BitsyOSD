@@ -7,7 +7,10 @@
  * 
  * This file defines some of the constants used throughout the
  * OSD. If you don't like the layout of the OSD, you may can 
- * tweak some of the values here.                                               
+ * tweak some of the values here.   
+ * 
+ * NOTE: ANY MODIFICATION TO THIS FILE MIGHT BRICK YOUR OSD.
+ *       MAKE SURE YOU KNOW WHAT YOU DOING!
  * 
  **/
 
@@ -55,7 +58,6 @@
  */
 
 #define NO_SYMBOL            0
-
 #define SYMBOL_BATTERY_100   0x70
 #define SYMBOL_BATTERY_60    0x71
 #define SYMBOL_BATTERY_30    0x72
@@ -82,6 +84,8 @@
 #define SYMBOL_LAT           0x6e
 #define SYMBOL_LON           0x6f
 #define SYMBOL_RSSI          0x86
+#define SYMBOL_PERCSMALL     0x92
+#define SYMBOL_PERCLARGE     0x4c
 
 /**
  * (Layout) 
@@ -232,6 +236,9 @@ struct OSD_RUNTIME_VALUES {
   // Voltage
   float voltage1;
   float voltage2;
+  
+  // other timeouts
+  long tvalues;
 };
 
 

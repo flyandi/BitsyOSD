@@ -198,20 +198,20 @@ void DrawNumber(int x, int y, int v, int d, int mi, int ma, int font) {
 }
 
 /* (DrawBattery) Draws the Battery Status */
-void DrawBattery(int x, int y, float voltage, int type) {
+void DrawBattery(byte x, byte y, float voltage, byte type, byte mode) {
   
   // calculate voltage
-  int maxVoltage = (type + 1) * CELL_MAX_VOLTAGE,
-      minVoltage = (type + 1) * CELL_MIN_VOLTAGE;
+  float maxVoltage = (type + 1) * CELL_MAX_VOLTAGE,
+        minVoltage = (type + 1) * CELL_MIN_VOLTAGE;
   
   // calculate percentage
-  int p = 100 - (((maxVoltage - voltage) * 100) / (maxVoltage - minVoltage));
+  byte p = 100 - (((maxVoltage - voltage) * 100) / (maxVoltage - minVoltage));
   
   // sanity check
   p = p > 100 ? 100 : (p < 0 ? 0 : p);
   
   // set symbol
-  int symbol = SYMBOL_BATTERY_0;
+  byte symbol = SYMBOL_BATTERY_0;
   
   if(p > 90) {
     symbol = SYMBOL_BATTERY_100; 
@@ -225,7 +225,15 @@ void DrawBattery(int x, int y, float voltage, int type) {
   osd.setPanel(x, y);
   osd.openPanel();
   osd.write(symbol);
-  osd.writefloat(voltage, 1);
+  
+  if(mode == 1) {
+    p = p > 99 ? 99 : p;
+    osd.write(FONT_SMALL + (p/10));
+    osd.write(FONT_SMALL + (p%10));
+    osd.write(SYMBOL_PERCSMALL); 
+  } else {
+    osd.writefloat(voltage, 1);
+  } 
   osd.closePanel();    
 }
 

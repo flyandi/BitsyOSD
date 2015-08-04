@@ -174,9 +174,22 @@ tweak to your likening.
   * 1 = Bat1  (Only shows Battery 1)
   * 2 = Bat2  (Only shows Battery 2)
   * 3 = All   (Shows both Batteries)
+  *
   */
 
-//#define SHOW_VOLTAGE 0
+#define SHOW_VOLTAGE 1
+
+
+/**
+  * Additional you can specify to show each battery as voltage or percentage
+  *
+  * 0 = Default (Voltage)
+  * 1 = Percentage
+  * 2 = Toggle (every 5s) ** NOT IMPLEMENTED YET **
+  */
+
+#define DISPLAY_MODE_BATTERY1 1
+#define DISPLAY_MODE_BATTERY2 0
 
 
 /**
