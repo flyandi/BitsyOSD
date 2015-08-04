@@ -169,6 +169,14 @@
 #define LED_HEARTBEAT 800
 #define LED_PIN 13
 
+/** 
+ * (Voltage, Current and RSSI)
+ */
+
+#define VOLTAGE_PIN_BATTERY1 A0
+#define VOLTAGE_PIN_BATTERY2 A2
+#define CURRENT_PIN A1
+#define RSSI_PIN A3 
 
 /** 
  * (Development)
@@ -213,6 +221,17 @@ struct OSD_RUNTIME_VALUES {
   // Fly Timer
   long flytime;
   long flytimelast;
+
+  // RSSI
+  int16_t rssi;
+  int16_t rssiADC;
+  int16_t rssiMin;
+  int16_t rssiMax;
+  int16_t rssi_Int;
+
+  // Voltage
+  uint16_t voltage1;
+  uint16_t voltage2;
 };
 
 

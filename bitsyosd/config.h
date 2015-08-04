@@ -161,6 +161,48 @@ tweak to your likening.
 #define HOME_BEARING 1
 
 
+/**
+  * (Voltage) 
+  * 
+  * Enables to display the battery voltage. Only supported on the Micro MinimOSD Hardware.
+  * Don't forget to set the proper Voltage divider.
+  *
+  * 0 = Off (Default)
+  * 1 = Bat1  (Only shows Battery 1)
+  * 2 = Bat2  (Only shows Battery 2)
+  * 3 = All   (Shows both Batteries)
+  */
+
+//#define SHOW_VOLTAGE 0
+
+/**
+  * (Voltage Divider) 
+  * 
+  * If you enable the voltage display, you need to set the voltage divider to see proper
+  * Battery voltages on your screen. 
+  *
+  * 2s = 
+  * 1 = Bat1  (Only shows Battery 1)
+  * 2 = Bat2  (Only shows Battery 2)
+  * 3 = All   (Shows both Batteries)
+  */
+
+//#define VOLTAGE_DIVIDER_BATTERY1 0
+//#define VOLTAGE_DIVIDER_BATTERY2 0
+
+
+/** 
+  * (RSSI)
+  *
+  * Displayes the current RSSI strength. Only supported on the Micro MinimOSD Hardware.
+  *
+  * 0 = Off (Default)
+  * 1 = On  
+  */
+
+//#define SHOW_RSSI 0
+
+
 #endif /* _CONF_ */
   
 

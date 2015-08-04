@@ -14,7 +14,7 @@ http://github.com/FPVTools/BitsyOSD
 
 Copyright (c) 2015.  All rights reserved.
 Author: Andreas Schwarz-Gulley
-Version: 1.0
+Version: 1.1.0
 
 Uses some sources from these projects:
 
@@ -262,6 +262,37 @@ void UpdateGPS() {
     runtime.flytimelast = millis();
   }
 }
+
+/** 
+  * (UpdateValues) Updates certain values like voltage, rssi, etc
+  */
+
+void UpdateValues() {
+
+  // Voltages
+  #ifdef SHOW_VOLTAGE 
+
+    if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
+      runtime.voltage1 = ReadVoltage(VOLTAGE_PIN_BATTERY1, VOLTAGE_DIVIDER_BATTERY1);
+    }
+
+    if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
+      runtime.voltage2 = ReadVoltage(VOLTAGE_PIN_BATTERY2, VOLTAGE_DIVIDER_BATTERY2);
+    }
+
+  #endif 
+
+  // RSSI
+  #ifdef SHOW_RSSI 
+
+    if(SHOW_RSSI == 1) {
+      runtime.rssi = analogRead(RSSI_PIN) / 4; 
+    }
+
+  #endif
+
+}
+
 
 /**
   * (UpdateDisplay) Draws the OSD Screen

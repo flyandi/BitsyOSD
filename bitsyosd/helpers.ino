@@ -18,3 +18,24 @@ void unplugSlaves() {
     digitalWrite(MAX7456_SELECT, HIGH); // unplug OSD
 }
 
+
+/**
+ * (ReadVoltage)
+ */
+
+uint16_t ReadVoltage(int pin, int divider) {
+
+	static uint16_t i = 0;
+	static uint32_t raw[8];
+	uint16_t voltageRaw = 0;
+
+	// read raw voltage from pin
+	raw[(i++)%8] = analogRead(pin); 
+
+	// process
+	for (uint16_t i=0;i<8;i++)
+	voltageRaw += voltageRawArray[i];
+
+	// return voltage
+	return float(voltageRaw) * divider / 1023; 
+}
