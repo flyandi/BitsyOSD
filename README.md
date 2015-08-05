@@ -3,33 +3,19 @@ BitsyOSD
 
 BitsyOSD is a full featured standalone OSD firmware for the MinimOSD Hardware.
 
-
-## Why another OSD?
-
-There are plenty of options out there but I needed something very simple that just works and was small - I looked at all the other great projects which provide a lot of configurations and options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that just provides the most essential information.
-
-Although the OSD has a fixed layout, there are easy to understand configuration options which allows you to customize the firmware to your needs.
-
-One of the big highlights is that the firmware supports the DJI Naza Flight Controller.
-
-
-## Supported Hardware
-
-I highly recommend to get the Micro MinimOSD Hardware which contains better filtering and additional inputs for Battery monitoring in a very compact size.
-
-[![Image](http://static.rcgroups.net/forums/attachments/1/4/2/1/t7471848-198-thumb-1-15-2015_6-43-50_am.jpg?d=1421342036)]
-
-Get them from ReadyToFlyQuads(http://www.readytoflyquads.com/micro-minimosd).
-
-
-## Video
-
-Check out the video below for a quick introduction:
-
 [![Video](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-animation.gif)](http://www.youtube.com/watch?v=92WtLzoAQVY)
 
 Full video at 
 http://www.youtube.com/watch?v=92WtLzoAQVY
+
+
+## Why another OSD?
+
+There are plenty of options out there but I needed something very simple that just works and was simple - I looked at all the other great projects which provide a lot of configuration options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that just provides the most essential information.
+
+Although the OSD has a fixed layout, there are easy to understand configuration options which allows you to customize the firmware to your needs.
+
+One of the big highlights is that the firmware supports the DJI Naza Flight Controller.
 
 
 ## Features
@@ -55,6 +41,20 @@ Currently BitsyOSD implements the following values in a fixed layout that is con
 
 ![Screen1](https://github.com/FPVTools/BitsyOSD/blob/master/docs/00123333.jpg)
 ![Screen2](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-main-screen.png)
+
+
+## Hardware Requirements
+
+You need a MinimOSD (duh!) and a GPS. Any NEMA compatible GPS is supported.
+
+I highly recommend to get the Micro MinimOSD Hardware which contains better filtering and additional inputs for Battery monitoring in a very compact size.
+
+![Image](http://static.rcgroups.net/forums/attachments/1/4/2/1/t7471848-198-thumb-1-15-2015_6-43-50_am.jpg?d=1421342036)
+
+Get them from ReadyToFlyQuads (http://www.readytoflyquads.com/micro-minimosd).
+
+If you have a DJI Naza Controller, you can use an Y-Cable to split the cable from the Naza GPS and directly connect it to the MinimOSD.
+
 
 ## Get Started
 
