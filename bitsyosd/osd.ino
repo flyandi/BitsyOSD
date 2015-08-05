@@ -14,10 +14,15 @@ OSD Functions
   */
   
 void MessageAlert(boolean show, char* msg) {
+  CustomMessageAlert(show, msg, LAYOUT_WARN_X, LAYOUT_WARN_Y, true);
+}
+
+void CustomMessageAlert(boolean show, char* msg, byte x, byte y, bool symbol) {
+  
   // draw symbol
-  osd.setPanel(vma(LAYOUT_WARN_X, 1), LAYOUT_WARN_Y);
+  osd.setPanel(vma(x, 1), y);
   osd.openPanel();
-  if(show) {
+  if(show && symbol) {
     osd.write(SYMBOL_WARN0);
     osd.write(SYMBOL_WARN1);
   } else {
@@ -27,15 +32,15 @@ void MessageAlert(boolean show, char* msg) {
   osd.closePanel();
   // draw text
   if(show) {
-    osd.setPanel(vma(LAYOUT_WARN_X, 1) - (sizeof msg/2)-1, LAYOUT_WARN_Y+1);
+    osd.setPanel(vma(x, 1) - (sizeof msg/2)-1, y+ (symbol ? 1 : 0));
   } else {
-    osd.setPanel(vma(LAYOUT_WARN_X, 1) - 5, LAYOUT_WARN_Y+1);
+    osd.setPanel(vma(x, 1) - 5, y+ (symbol ? 1 : 0));
   }
   osd.openPanel();
   if(show) {
     osd.writeupper(msg);
   } else {
-    for(int i=0;i<10;i++) {
+    for(byte i=0;i<10;i++) {
      osd.write(CHAR_CLEAR);
     }
   }
@@ -47,7 +52,7 @@ void MessageAlert(boolean show, char* msg) {
   * (DrawStatus) Draws or clears a symbol
   */
 
-void DrawStatus(int x, int y, boolean b, int symbol) {
+void DrawStatus(byte x, byte y, boolean b, byte symbol) {
   osd.openSingle(x, y);
   osd.write(b?symbol:CHAR_CLEAR); 
 }
@@ -57,12 +62,12 @@ void DrawStatus(int x, int y, boolean b, int symbol) {
   * (DrawThreeDigitValue) Draws a three digit value
   */
 
-void DrawThreeDigitValue(int x, int y, int v, int symbol) {
+void DrawThreeDigitValue(byte x, byte y, int v, byte symbol) {
   // verify
   if(v < 0 || v > 999) return;
 
   // write
-  int fl = FONT_LARGE;
+  byte fl = FONT_LARGE;
   osd.setPanel(x, y);    
   osd.openPanel(); 
   osd.write(fl+(v/100));
@@ -79,7 +84,7 @@ void DrawThreeDigitValue(int x, int y, int v, int symbol) {
   * (DrawFourDigitValue) 
   */
 
-void DrawFourDigitValue(int x, int y, long v, int bsymbol, int asymbol, int fl) {
+void DrawFourDigitValue(byte x, byte y, long v, byte bsymbol, byte asymbol, int fl) {
   // verify
   if(v < 0 || v > 9999) return;
   
@@ -130,7 +135,7 @@ byte GetUnitSpeedSymbol(float unit, boolean panel) {
   * (DrawDistance) draws a distance with four digits
   */
 
-void DrawDistance(int x, int y, float value, int symbol) {
+void DrawDistance(byte x, byte y, float value, byte symbol) {
   
   // calculate large number
   float large = fabs(value * UNIT_DISTANCE_LARGE);
@@ -160,7 +165,7 @@ void DrawDistance(int x, int y, float value, int symbol) {
   * (DrawFancyHeading) 
   */
   
-void DrawFancyHeading(int x, int y, long d) {
+void DrawFancyHeading(byte x, byte y, long d) {
   if(d >= 16 || d < 0) d = 0;
   osd.setPanel(x, y);    
   osd.openPanel();
@@ -170,7 +175,7 @@ void DrawFancyHeading(int x, int y, long d) {
 
 
 /* (DrawOneSmallValue) Draws a one value */
-void DrawOneSmallValue(int x, int y, int n) {
+void DrawOneSmallValue(byte x, byte y, int n) {
   int fs = FONT_SMALL;
   osd.setPanel(x, y);    
   osd.openPanel();
@@ -180,7 +185,7 @@ void DrawOneSmallValue(int x, int y, int n) {
 
 
 /* (DrawNumber) Draws a number on the screen with filler etc */
-void DrawNumber(int x, int y, int v, int d, int mi, int ma, int font) {
+void DrawNumber(byte x, byte y, int v, int d, int mi, int ma, int font) {
  // prepare
  if(v<mi) v = mi; if(v>ma) v = ma;
  // open panel
@@ -199,6 +204,8 @@ void DrawNumber(int x, int y, int v, int d, int mi, int ma, int font) {
 
 /* (DrawBattery) Draws the Battery Status */
 void DrawBattery(byte x, byte y, float voltage, byte type, byte mode) {
+  
+  if(voltage < 2) return;
   
   // calculate voltage
   float maxVoltage = (type + 1) * CELL_MAX_VOLTAGE,
@@ -237,12 +244,24 @@ void DrawBattery(byte x, byte y, float voltage, byte type, byte mode) {
   osd.closePanel();    
 }
 
+/**
+  * (DrawBatteryAlert)
+  */
+
+void DrawBatteryAlert(bool show, float voltage, byte type) {
+  
+  // show
+  show = show ? ((type + 1) * CELL_ALERT_VOLTAGE) < voltage : false;
+  
+  CustomMessageAlert(show, "LOW BATTERY", LAYOUT_LOWVOLT_X, LAYOUT_LOWVOLT_Y, false);
+        
+}
 
 /**
   * (DrawTimer) Draws a Timer Control
   */
   
-void DrawTimer(int x, int y, unsigned long time, int symbol, boolean small) {  
+void DrawTimer(byte x, byte y, unsigned long time, byte symbol, boolean small) {  
   if(time < 0) time = 0;
   
   // parse time
@@ -299,7 +318,7 @@ void DrawBox(int x, int y, int w, int h) {
   * (DrawLabelBox) Draws a box but with labels
   */
   
-void DrawLabelBox(int x, int y, int w, int h, byte ll, byte lr) {
+void DrawLabelBox(byte x, byte y, byte w, byte h, byte ll, byte lr) {
   
   DrawBox(x, y, w, h);
   
@@ -314,7 +333,7 @@ void DrawLabelBox(int x, int y, int w, int h, byte ll, byte lr) {
 void DrawLogo() {
   osd.setPanel(vma(9, 1),vma(8, 1));    
   osd.openPanel();
-  for(int i = 0; i < 13; i++) {
+  for(byte i = 0; i < 13; i++) {
     osd.write(0xb0 + i);
   }
   osd.closePanel();
@@ -322,7 +341,7 @@ void DrawLogo() {
   osd.setPanel(vma(12, 1), vma(6, 1));
   osd.openPanel(); 
   
-  for(int i = 0; i < 7; i++) {
+  for(byte i = 0; i < 7; i++) {
     osd.write(0xc0 + i);
   }
   osd.closePanel();
@@ -333,7 +352,7 @@ void DrawLogo() {
   * (DrawCoordinates) 
   */
   
-void DrawCoordinates(int x, int y, float value, int prec, byte symbol) {
+void DrawCoordinates(byte x, byte y, float value, byte prec, byte symbol) {
   osd.setPanel(x, y);
   osd.openPanel();
   if(symbol != NO_SYMBOL) osd.write(symbol);
@@ -352,7 +371,7 @@ void DrawCoordinates(int x, int y, float value, int prec, byte symbol) {
   * (vma) adjust based on video mode
   */
 
-int vma(int v, int a) {
+int vma(byte v, byte a) {
   return VIDEO_MODE == 0 ? v + a : v; 
 }  
 

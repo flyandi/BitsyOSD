@@ -59,6 +59,7 @@ tweak to your likening.
   * BitsyOSD can handle different parser formats, you need to choose one here
   *
   * Uncomment one of the options below. If you want to test the OSD without GPS, use the SIM parser.
+  *
   */
 
 //#define GPS_PARSER_NEMA
@@ -181,14 +182,28 @@ tweak to your likening.
 
 
 /**
+  * (Configuration for LiPo)
+  *
+  * Specify the min and max voltage of a cell
+  *
+  */
+  
+#define CELL_MAX_VOLTAGE 4.2
+#define CELL_MIN_VOLTAGE 3.6
+#define CELL_ALERT_VOLTAGE 3.75    // Used for Low Battery warning
+
+
+/**
   * Additional you can specify to show each battery as voltage or percentage
+  *
+  * Note: Nothing is displayed if no battery voltage is detected.
   *
   * 0 = Default (Voltage)
   * 1 = Percentage
   * 2 = Toggle (every 5s) ** NOT IMPLEMENTED YET **
   */
 
-#define DISPLAY_MODE_BATTERY1 1
+#define DISPLAY_MODE_BATTERY1 0
 #define DISPLAY_MODE_BATTERY2 0
 
 
@@ -198,9 +213,6 @@ tweak to your likening.
   * If you enable the voltage display, you need to set the voltage divider to see proper
   * Battery voltages on your screen. 
   *
-  * 2s = 0
-  * 3s = 1
-  * 4s = 2
   */
 
 #define VOLTAGE_DIVIDER_BATTERY1 10
@@ -221,19 +233,25 @@ tweak to your likening.
 #define TYPE_BATTERY1 2
 #define TYPE_BATTERY2 2
 
+
+
 /**
-  * (Configuration for LiPo)
+  * (Battery Alarm) 
   *
-  * Specify the min and max voltage of a cell
+  * Shows an alert if the voltage drops below a certain cell voltage. 
+  *
+  * Don't forget to set the cell voltage. This can be different from the minimum cell voltage.
+  *
+  * 0 = Off (Default)
+  * 1 = On
   *
   */
-  
-#define CELL_MAX_VOLTAGE 4.2
-#define CELL_MIN_VOLTAGE 3.6
+
+#define SHOW_BATTERY_ALERT 1
 
 
 /** 
-  * (RSSI)
+  * (RSSI) Experimental / Not field tested
   *
   * Displayes the current RSSI strength. Only supported on the Micro MinimOSD Hardware.
   *

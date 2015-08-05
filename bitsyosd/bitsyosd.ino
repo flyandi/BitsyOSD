@@ -276,7 +276,7 @@ void UpdateValues() {
     #ifdef SHOW_VOLTAGE 
   
       if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
-        runtime.voltage1 = ReadVoltage(VOLTAGE_PIN_BATTERY1, VOLTAGE_DIVIDER_BATTERY1);
+        runtime.voltage1 = ReadVoltage(VOLTAGE_PIN_BATTERY1, VOLTAGE_DIVIDER_BATTERY1);     
       }
   
       if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
@@ -314,10 +314,15 @@ void UpdateDisplay() {
 
     if(SHOW_VOLTAGE == 1 || SHOW_VOLTAGE == 3) {
       DrawBattery(LAYOUT_BATTERY1_X, LAYOUT_BATTERY1_Y, runtime.voltage1, TYPE_BATTERY1, DISPLAY_MODE_BATTERY1);
+      
+       #ifdef SHOW_BATTERY_ALERT
+          DrawBatteryAlert(SHOW_BATTERY_ALERT == 1, runtime.voltage1, TYPE_BATTERY1);
+       #endif  
     }
 
     if(SHOW_VOLTAGE == 2 || SHOW_VOLTAGE == 3) {
       DrawBattery(LAYOUT_BATTERY2_X, LAYOUT_BATTERY2_Y - (SHOW_VOLTAGE == 2 ? 1 : 0), runtime.voltage2, TYPE_BATTERY2, DISPLAY_MODE_BATTERY2);
+      
     }
 
   #endif 

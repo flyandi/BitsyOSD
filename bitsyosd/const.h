@@ -108,6 +108,9 @@
 #define LAYOUT_WARN_X         14
 #define LAYOUT_WARN_Y         1
 
+#define LAYOUT_LOWVOLT_X      12
+#define LAYOUT_LOWVOLT_Y      3
+
 #define LAYOUT_HEADING_X      13
 #define LAYOUT_HEADING_Y      1
 
