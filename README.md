@@ -1,12 +1,26 @@
 BitsyOSD
 =======
 
-BitsyOSD is a minimalistic OSD based on the works of ArduCam and minimNaza. It's intended to be used on the MinimOSD Hardware that can be purchased for less then $20 USD.
+BitsyOSD is a full featured standalone OSD firmware for the MinimOSD Hardware.
 
 
 ## Why another OSD?
 
 There are plenty of options out there but I needed something very simple that just works and was small - I looked at all the other great projects which provide a lot of configurations and options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that just provides the most essential information.
+
+Although the OSD has a fixed layout, there are easy to understand configuration options which allows you to customize the firmware to your needs.
+
+One of the big highlights is that the firmware supports the DJI Naza Flight Controller.
+
+
+## Supported Hardware
+
+I highly recommend to get the Micro MinimOSD Hardware which contains better filtering and additional inputs for Battery monitoring in a very compact size.
+
+[![Image](http://static.rcgroups.net/forums/attachments/1/4/2/1/t7471848-198-thumb-1-15-2015_6-43-50_am.jpg?d=1421342036)]
+
+Get them from ReadyToFlyQuads(http://www.readytoflyquads.com/micro-minimosd).
+
 
 ## Video
 
@@ -20,11 +34,11 @@ http://www.youtube.com/watch?v=92WtLzoAQVY
 
 ## Features
 
-Currently BitsyOSD implements the following values in a fixed layout that is partially configurable or can be easily adapted via the code. 
+Currently BitsyOSD implements the following values in a fixed layout that is configurable and can be easily adapted to your needs:
 
 * Speed 
 * Altitude (ASL, AGL)
-* Heading
+* Heading (AGH, BGH)
 * Simple Variometer
 * Traveled Distance
 * Home Heading Indicator 
@@ -32,6 +46,10 @@ Currently BitsyOSD implements the following values in a fixed layout that is par
 * Flight Timer
 * GPS Statuses
 * GPS Coordinates
+* Battery 1 Voltage Monitoring
+* Battery 2 Voltage Monitoring
+* Low Battery Alerts
+* RSSI (*)
 
 **Please be aware that BitsyOSD doesn't have any outside configuration possibilities and all modifications need to be done via the code base**
 
