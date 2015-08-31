@@ -23,7 +23,7 @@ tweak to your likening.
   * 1 = NTSC
   */
   
-#define VIDEO_MODE 1
+#define VIDEO_MODE 0
 
 
 /**
@@ -62,10 +62,10 @@ tweak to your likening.
   *
   */
 
-//#define GPS_PARSER_NEMA
+#define GPS_PARSER_NEMA
 //#define GPS_PARSER_DJI
-//#define GPS_PARSER_UBLOX
-#define GPS_PARSER_SIM
+//#define GPS_PARSER_UBLOX  // Binary UBLOX Protocol - not implemented yet
+//#define GPS_PARSER_SIM
 
 
 /** 
@@ -74,13 +74,16 @@ tweak to your likening.
   * The serial baud rate of the attached GPS
   *
   * Some default rates
-  * UBLOX 6M     9600
-  * DJI GPS      115200
+  * UBLOX 6M                 9600
+  * ReadyToFly GPS Port A    115200
+  * ReadyToFly GPS Port B    38400
+  * DJI GPS                  115200
   *
   */
 
 // Ublox
-#define GPS_SPEED 9600 
+
+#define GPS_SPEED 38400
 
 // DJI
 //#define GPS_SPEED 115200
@@ -134,7 +137,7 @@ tweak to your likening.
   * The GPS Coordinates precision - only for display
   */
   
-#define GPS_PRECISION 5
+#define GPS_PRECISION 4
 
 
 /**
@@ -189,7 +192,7 @@ tweak to your likening.
   */
   
 #define CELL_MAX_VOLTAGE 4.2
-#define CELL_MIN_VOLTAGE 3.6
+#define CELL_MIN_VOLTAGE 3.5
 #define CELL_ALERT_VOLTAGE 3.75    // Used for Low Battery warning
 
 
@@ -230,8 +233,8 @@ tweak to your likening.
   * 4s = 3  - Maximum supported by the Hardware
   */
 
-#define TYPE_BATTERY1 2
-#define TYPE_BATTERY2 2
+#define TYPE_BATTERY1 3
+#define TYPE_BATTERY2 3
 
 
 
@@ -247,11 +250,11 @@ tweak to your likening.
   *
   */
 
-#define SHOW_BATTERY_ALERT 1
+#define SHOW_BATTERY_ALERT 0
 
 
 /** 
-  * (RSSI) Experimental / Not field tested
+  * (RSSI) Experimental / Not implemented yet
   *
   * Displayes the current RSSI strength. Only supported on the Micro MinimOSD Hardware.
   *
@@ -261,6 +264,28 @@ tweak to your likening.
 
 //#define SHOW_RSSI 0
 
+
+
+/** 
+  * Very Advanced Settings
+  *
+  * Only enable this if you know what you doing, otherwise it might break your hardware. Seriously!
+  *
+  */
+
+/**
+ * GPS_HOME_WAIT Overwrite
+ * This overwrites the wait time for the GPS home lock. Basically the idea is that the GPS altitude needs to be
+ * stable for X times (time has no unit). The default values are defined in <const.h>.
+ */
+
+//#define GPS_HOME_WAIT 5
+
+/**
+ *  GPS_HOME_SENSTIVITY
+ */
+
+//#define GPS_HOME_SENSITIVITY 0.25
 
 
 #endif /* _CONF_ */

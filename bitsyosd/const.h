@@ -161,11 +161,12 @@
 
 #define GPS_AGL_NEGATIVE    5         // 5m safety distance before negative values are displayed
 #define GPS_CLIMB_VALUE     8         // Minimum climb up down value - anything between +/- of this value will be considered no movement\
+#define GPS_HOME_SENSITIVITY 0.5
 
 #ifdef GPS_PARSER_NEMA 
   #define GPS_HOME_WAIT     10        // Wait count for Home, 10 is pretty large for NEMA since it's very unstable but good enough
 #else
-  #define GPS_HOME_WAIT     50        // UBlox, DJI do both need a bit more time for locking in home
+  #define GPS_HOME_WAIT     50        // UBlox, DJI - both need a bit more time for locking in home
 #endif
 
 #define GPS_MEASURE_PERIOD  95        // Period for meassuring distance

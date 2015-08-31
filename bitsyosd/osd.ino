@@ -20,7 +20,7 @@ void MessageAlert(boolean show, char* msg) {
 void CustomMessageAlert(boolean show, char* msg, byte x, byte y, bool symbol) {
   
   // draw symbol
-  osd.setPanel(vma(x, 1), y);
+  osd.setPanel(vma(x, -1), y);
   osd.openPanel();
   if(show && symbol) {
     osd.write(SYMBOL_WARN0);
@@ -32,9 +32,9 @@ void CustomMessageAlert(boolean show, char* msg, byte x, byte y, bool symbol) {
   osd.closePanel();
   // draw text
   if(show) {
-    osd.setPanel(vma(x, 1) - (sizeof msg/2)-1, y+ (symbol ? 1 : 0));
+    osd.setPanel(vma(x, -1) - (sizeof msg/2)-1, y+ (symbol ? 1 : 0));
   } else {
-    osd.setPanel(vma(x, 1) - 5, y+ (symbol ? 1 : 0));
+    osd.setPanel(vma(x, -1) - 5, y+ (symbol ? 1 : 0));
   }
   osd.openPanel();
   if(show) {
@@ -331,14 +331,14 @@ void DrawLabelBox(byte x, byte y, byte w, byte h, byte ll, byte lr) {
   * (DrawLogo) Draws the FPV Tools Logo
   */
 void DrawLogo() {
-  osd.setPanel(vma(9, 1),vma(8, 1));    
+  osd.setPanel(vma(9, -1),vma(8, 1));    
   osd.openPanel();
   for(byte i = 0; i < 13; i++) {
     osd.write(0xb0 + i);
   }
   osd.closePanel();
   
-  osd.setPanel(vma(12, 1), vma(6, 1));
+  osd.setPanel(vma(12, -1), vma(6, 1));
   osd.openPanel(); 
   
   for(byte i = 0; i < 7; i++) {
