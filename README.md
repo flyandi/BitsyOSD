@@ -45,7 +45,7 @@ Currently BitsyOSD implements the following values in a fixed layout that is con
 
 ## Hardware Requirements
 
-You need a MinimOSD (duh!) and a GPS. Any NEMA compatible GPS is supported.
+You need a MinimOSD (duh!) and a GPS. Currently BitsyOSD supports any NEMA compatible GPS and the DJI Naza GPS.
 
 I highly recommend to get the Micro MinimOSD Hardware which contains better filtering and additional inputs for Battery monitoring in a very compact size.
 
