@@ -81,8 +81,7 @@ tweak to your likening.
   *
   */
 
-// Ublox
-
+// UBLOX 6M 
 #define GPS_SPEED 38400
 
 // DJI
@@ -260,6 +259,7 @@ tweak to your likening.
   *
   * 0 = Off (Default)
   * 1 = On  
+  *
   */
 
 //#define SHOW_RSSI 0
@@ -274,16 +274,23 @@ tweak to your likening.
   */
 
 /**
- * GPS_HOME_WAIT Overwrite
- * This overwrites the wait time for the GPS home lock. Basically the idea is that the GPS altitude needs to be
- * stable for X times (time has no unit). The default values are defined in <const.h>.
- */
+  * (GPS_HOME_WAIT Overwrite)
+  * 
+  * This overwrites the wait time for the GPS home lock. Basically the idea is that the GPS altitude needs to be
+  * stable for X times (time has no unit). The default values are defined in <defaults.h>.
+  *
+  */
 
 //#define GPS_HOME_WAIT 5
 
+
 /**
- *  GPS_HOME_SENSTIVITY
- */
+  * (GPS_HOME_SENSITIVITY Overwrite)
+  * 
+  * The home sensitivity sets the maximum allowed difference of altitude changes during home lock. 
+  * If you having a hard time to get a home lock (> 30 seconds) you may want to adjust this value.
+  *
+  */
 
 //#define GPS_HOME_SENSITIVITY 0.25
 

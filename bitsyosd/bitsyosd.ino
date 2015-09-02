@@ -12,14 +12,9 @@ LEGAL INFORMATION
 
 http://github.com/FPVTools/BitsyOSD
 
-Copyright (c) 2015.  All rights reserved.
-Author: Andreas Schwarz-Gulley
-Version: 1.1.0
-
-Uses some sources from these projects:
-
-ArduCam Project http://arducam-osd.googlecode.com
-minimNAZA http://minnazaosd.googlecode.com
+Copyright (c) 2015. All rights reserved.
+Author: Andreas Schwarz (flyandi)
+Version: 1.2.0
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,14 +33,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 
 
 /** 
-  * PROGMEM Header, we don't really use the EEPROM but who knows
+  * PROGMEM Header, we don't really use the EEPROM (yet)
   */
-
+/*
 #undef PROGMEM
 #define PROGMEM __attribute__(( section(".progmem.data") )) 
 
 #undef PSTR 
 #define PSTR(s) (__extension__({static prog_char __c[] PROGMEM = (s); &__c[0];})) 
+*/
 
 /** 
   * (Includes)
@@ -66,11 +62,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
 #endif
 
 // Local
-#include "config.h"
 #include "const.h"
+#include "config.h"
+#include "defaults.h"
 #include "max7456.h"
 #include "osd.h"
 #include "gps.h"
+
 
 
 /**
