@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "progress": "^1.1.8",
+    "read-file": "^0.2.0",
+    "readline-sync": "^1.4.4",
+    "serialport": "^4.0.1"
+  }
+}

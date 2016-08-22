@@ -62,10 +62,10 @@ tweak to your likening.
   *
   */
 
-#define GPS_PARSER_NEMA
+//#define GPS_PARSER_NEMA
 //#define GPS_PARSER_DJI
 //#define GPS_PARSER_UBLOX  // Binary UBLOX Protocol - not implemented yet
-//#define GPS_PARSER_SIM
+#define GPS_PARSER_SIM
 
 
 /** 
@@ -82,7 +82,7 @@ tweak to your likening.
   */
 
 // UBLOX 6M 
-#define GPS_SPEED 38400
+#define GPS_SPEED 9600
 
 // DJI
 //#define GPS_SPEED 115200

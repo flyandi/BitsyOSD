@@ -34,7 +34,7 @@
 // Home locks
 #ifndef GPS_HOME_WAIT
 #ifdef GPS_PARSER_NEMA
-#define GPS_HOME_WAIT     10      // Wait count for Home, 5 is pretty large for NEMA since it's very unstable but good enough.
+#define GPS_HOME_WAIT     10        // Wait count for Home, 5 is pretty large for NEMA since it's very unstable but good enough.
 #else
 #define GPS_HOME_WAIT     50      // UBlox, DJI - both need a bit more time for locking in home
 #endif

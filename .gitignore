@@ -1,3 +1,4 @@
 # BitsyOSD Ignores
 internal/
 .DS_STORE
+node_modules/

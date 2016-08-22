@@ -166,7 +166,7 @@
  * (LED)
  */
 
-#define LED_HEARTBEAT 800
+#define LED_HEARTBEAT 1200
 #define LED_PIN 13
 
 /** 

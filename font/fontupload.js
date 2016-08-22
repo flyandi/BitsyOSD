@@ -16,7 +16,7 @@ Font Upload Tool
 var // the font file to be uploaded
     FONT_FILE = "bitsyosd-font.mcm",
     // set the serial speed (baud)
-    SERIAL_BAUD = 115200,
+    SERIAL_BAUD = 19200,
     // set the serial device, leave false to choose
     SERIAL_DEVICE = null; 
 
@@ -25,9 +25,8 @@ var // the font file to be uploaded
   * Objects
   */
 
-var SerialPort = require("serialport").SerialPort,
-    SerialList = require("serialport"),
-    File = require('read-file'),
+var SerialPort = require("serialport"),
+    fs = require('fs'),
     Prompt = require('readline-sync'),
     ProgressBar = require('progress'),
     Runtime = {
@@ -39,7 +38,7 @@ var SerialPort = require("serialport").SerialPort,
   */
 
 var run = function() {
-    try {
+  try {
     if(SERIAL_DEVICE == null) {
       console.log('No valid COM Port selected.');
     } else {
@@ -47,52 +46,61 @@ var run = function() {
       var serialPort = new SerialPort(SERIAL_DEVICE, {baudrate: SERIAL_BAUD});
       // open serial port
       serialPort.on("open", function () {
-        // new bar
-        var d = (File.readFileSync(FONT_FILE)).split("\n"),
-            bar = new ProgressBar(':bar', { total: d.length });
-        // serial port
-        serialPort.on('data', function(buffer) {
-          // prepare data
-          var data = (''+buffer).trim();
-          
-          // wait for start marker
-          switch(true) {
-            case data == 'R' && !Runtime.uploading:
-              // block 
-              Runtime.uploading = true;
-              // load font and upload
-              console.log('Reading font...');
-              // make sure it's a valid file
-              console.log(d[0] == 'MAX7456');
-              if(d[0] == 'MAX7456' || true) {
-                // cycle in pairs of 8
-                setTimeout(function() {
-                  console.log("Uploading font...");
-                  var x = 0;
-                  for(var i = 1; i < d.length; i++) {
-                    var m = (d[i]).trim();
-                    serialPort.write(m + "\r");
-                  }
-                }, 100);
 
-              } else {
-                console.log('Invalid font. Not recgonized.');
+        // load
+        fs.readFile(FONT_FILE, "utf-8", function(err, fileData) {
+
+          // error handling
+          if(err) throw err;
+
+          // transform data
+          var d = fileData.split("\n");
+
+          // initialize bar
+          var bar = new ProgressBar(':bar :current :percent', { total: d.length }),
+
+              pos = 1; // first position
+
+          var next = function() {
+            serialPort.write(d[pos] + "\r");
+            pos++;
+          } 
+
+
+          // serial port
+          serialPort.on('data', function(buffer) {
+            // prepare data
+            var data = (''+buffer).trim().substr(0, 1);
+
+            // wait for start marker
+            switch(true) {
+              case data.toLowerCase() == 'r':
+                console.log("Restarting font upload");
+                pos = 1;
+                next();
+                break;
+             
+              case data.toLowerCase() == 'd':
+                console.log('Font was successfully uploaded. All done.');
+                // terminate application
                 process.exit();
-              }
-              break;
+                break;
 
-            case data.toLowerCase() == 'd':
-              console.log('Font was successfully uploaded. All done.');
-              // terminate application
-              process.exit();
-              break;
+              case data == '+':
+                if(!bar.complete) bar.tick();
+                next();
+                break;
+            }
+        
+          });
 
-            case data == '+':
-              if(!bar.complete) bar.tick();
-              break;
-          }
-      
+          // font upload starter
+          setTimeout(function() {
+            next();
+          }, 500);
+        
         });
+      
       });
     }
   } catch(e) {
@@ -104,7 +112,7 @@ var run = function() {
 
 if (!SERIAL_DEVICE) {
   // display ports
-  SerialList.list(function (err, ports) {
+  SerialPort.list(function (err, ports) {
     // show ports
     ports.forEach(function(port, index) {
       console.log(index + ' - ' + port.comName);

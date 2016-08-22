@@ -83,7 +83,7 @@ void setup()
 {
   byte spi_junk;
   int x;
-  Serial.begin(115200);
+  Serial.begin(19200);
   Serial.flush();
 
   digitalWrite(USBSELECT,HIGH); //disable USB chip
@@ -139,7 +139,7 @@ void setup()
    write_new_screen();  
 
   Serial.println("R");
-  delay(100);  
+  delay(25);  
 }
 
 //////////////////////////////////////////////////////////////
@@ -155,7 +155,6 @@ void loop()
     switch(incomingByte) // parse and decode mcm file
     {
       case 0x0d: // carridge return, end of line
-       Serial.println("+");
        if (bit_count == 8 && (ascii_binary[0] == 0x30 || ascii_binary[0] == 0x31))
        {
           // turn 8 ascii binary bytes to single byte '01010101' = 0x55
@@ -164,8 +163,10 @@ void loop()
          byte_count++;
          bit_count = 0;
        }
-       else
+       else {
          bit_count = 0;
+       }
+       Serial.println("+");
       break;
       case 0x0a: // line feed, ignore
         //Serial.println("ln");   
@@ -189,10 +190,12 @@ void loop()
   // write the character to NVM 
   if(byte_count == 64)
   {
-    Serial.println('~');
+     
     write_NVM();    
     byte_count = 0;
     font_count++;
+
+    Serial.println('~');
    
   }
 
@@ -218,6 +221,8 @@ void loop()
     
     Serial.println("D");
   }
+
+  //delay(25); // a cpu break
 }
 
 //////////////////////////////////////////////////////////////
@@ -357,3 +362,4 @@ void write_NVM()
   spi_transfer(ENABLE_display_vert);
   digitalWrite(MAX7456SELECT,HIGH);  
 }
+

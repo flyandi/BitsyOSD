@@ -6,7 +6,7 @@
                /___/                 
 
 BitsyOSD - A minimalistic OSD for FPV based on the works of ArduCam and minimNaza
-For minimOSD compatible hardware. 
+For minimOSD compatilble hardware. 
 
 LEGAL INFORMATION
 
@@ -447,7 +447,7 @@ void UpdateDisplay() {
 
 void Heartbeat() {
   
-  if(runtime.ledtimeout + LED_HEARTBEAT < millis()) {
+  if(millis() - runtime.ledtimeout > LED_HEARTBEAT) {
     
      runtime.ledtimeout = millis();
   
