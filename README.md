@@ -113,14 +113,7 @@ If you installed the libraries as well uploaded the font correctly, you now have
 
 ## License
 
-Copyright (c) 2015.  All rights reserved.
-Author: Andreas Schwarz
-Version: 1.0
-
-Uses base code and sources from these projects:
-
-ArduCam Project http://arducam-osd.googlecode.com
-minimNAZA http://minnazaosd.googlecode.com
+Copyright (c) 2016.  All rights reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
