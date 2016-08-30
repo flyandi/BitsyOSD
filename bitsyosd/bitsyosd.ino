@@ -5,16 +5,17 @@
 /____/_/\__/___/\_, /\____/___/____/ 
                /___/                 
 
-BitsyOSD - A minimalistic OSD for FPV based on the works of ArduCam and minimNaza
-For minimOSD compatilble hardware. 
+BitsyOSD - A minimalistic OSD firmware for the MinimOSD Hardware.
+
+Designed for Multicopters, Airplanes and UGV's.
 
 LEGAL INFORMATION
 
 http://github.com/FPVTools/BitsyOSD
 
-Copyright (c) 2015. All rights reserved.
+Copyright (c) 2016. All rights reserved.
 Author: Andreas Schwarz (flyandi)
-Version: 1.2.0
+Version: 1.3.0
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

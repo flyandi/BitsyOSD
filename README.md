@@ -1,7 +1,9 @@
 BitsyOSD
 =======
 
-BitsyOSD is a full featured standalone OSD firmware for the MinimOSD Hardware.
+BitsyOSD is a full featured standalone OSD firmware with a modern design for the MinimOSD Hardware. 
+
+It was specifically created for Multirotors (FPV Racing), Aircrafts and Ground Vehicles.
 
 [![Video](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-animation.gif)](http://www.youtube.com/watch?v=92WtLzoAQVY)
 
@@ -11,11 +13,11 @@ http://www.youtube.com/watch?v=92WtLzoAQVY
 
 ## Why another OSD?
 
-There are plenty of options out there but I needed something very simple that just works and was simple - I looked at all the other great projects which provide a lot of configuration options but that was overkill for me. So I rewrote the codebase and created a fixed layout OSD that just provides the most essential information.
+There are plenty of OSD options out there but I needed an OSD that was easy to maintain but still had all the features that I wanted. That's why I created BitsyOSD - a minimal configuration OSD that works right of the "box" (yes, there is a box that you can print on your 3D printer).
 
-Although the OSD has a fixed layout, there are easy to understand configuration options which allows you to customize the firmware to your needs.
+The OSD itself has a fixed layout that provides all essential information and only requires configuration of the GPS. 
 
-One of the big highlights is that the firmware supports the DJI Naza Flight Controller.
+BitsyOSD supports the standard NEMA GPS as well DJI's Naza protocol.
 
 
 ## Features
@@ -37,7 +39,7 @@ Currently BitsyOSD implements the following values in a fixed layout that is con
 * Low Battery Alerts
 * RSSI (*)
 
-**Please be aware that BitsyOSD doesn't have any outside configuration possibilities and all modifications need to be done via the code base**
+**Please be aware that BitsyOSD doesn't have any outside configuration possibilities and all setup needs to be done via the code base**
 
 ![Screen1](https://github.com/FPVTools/BitsyOSD/blob/master/docs/00123333.jpg)
 ![Screen2](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-main-screen.png)
@@ -84,7 +86,6 @@ BitsyOSD is using several libraries that need to be installed to your Arduino ID
 Learn more how to install libraries in Arduino at [http://arduino.cc/en/Guide/Libraries]
 
 
-
 ### Upload the font
 
 BitsyOSD is using a custom font that needs to be uploaded to the MinimOSD. The entire font upload process is outside of the main code base to keep the size small. 
@@ -108,7 +109,6 @@ This process may take some time and you should see the new font set on your disp
 Make sure the MinimOSD is connected to your computer via the USB FTDI TTL serial adapter. Open the file ```BitsyOSD/BitsyOSD.ino``` and click ```Upload``` in the Arduino IDE.
 
 If you installed the libraries as well uploaded the font correctly, you now have a working MinimOSD with BitsyOSD. 
-
 
 
 ## License
