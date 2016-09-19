@@ -15,7 +15,7 @@ http://github.com/FPVTools/BitsyOSD
 
 Copyright (c) 2016. All rights reserved.
 Author: Andreas Schwarz (flyandi)
-Version: 1.3.0
+Version: 1.4.0
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -162,107 +162,110 @@ void Update() {
 
 void UpdateGPS() {
 
-  // process data
-  if(!gps_process()) {
-    return; // nothing yet 
-  }
-  
-  // update values
-  GPS_DATA tempdata = gps_values();
-  
-  if(runtime.gpsacquired && tempdata.Satellites < GPS_REQUIRED_SAT) {
-    // timer that prevents to show the splashscreen after we lost temporarily the GPS
-    if(runtime.gpstimeout == -1) {
-      // start
-      runtime.gpstimeout = millis();
-    } else {
-       if(runtime.gpstimeout + GPS_TIMEOUT < millis()) {
-         gpsdata = tempdata; // apply 
-         runtime.gpsacquired = false;
-       }    
+  #ifdef GPS_ENABLED
+
+    // process data
+    if(!gps_process()) {
+      return; // nothing yet 
     }
-  } else {
-    runtime.gpstimeout = -1;
-    runtime.gpsacquired = true;
-    gpsdata = tempdata;
-  }
-  
-  // calculate gps data
-  if(!runtime.gpshashome) {
-    // find gps home position under certain conditions
-    if(gpsdata.Status >= GPS_ACCURACY && gpsdata.Satellites >= GPS_REQUIRED_SAT) {
-      // check old vs 
-      if(runtime.gpsaltprev == -1) {
-        runtime.gpsaltprev = gpsdata.Altitude;
-      } else if(fabs(runtime.gpsaltprev - gpsdata.Altitude) > GPS_HOME_SENSITIVITY) {
-        // reset 
-        runtime.gpsaltcount = 0;
-        runtime.gpsaltprev = gpsdata.Altitude;
+    
+    // update values
+    GPS_DATA tempdata = gps_values();
+    
+    if(runtime.gpsacquired && tempdata.Satellites < GPS_REQUIRED_SAT) {
+      // timer that prevents to show the splashscreen after we lost temporarily the GPS
+      if(runtime.gpstimeout == -1) {
+        // start
+        runtime.gpstimeout = millis();
       } else {
-        runtime.gpsaltcount = runtime.gpsaltcount + 1;
-        // check
-        if(runtime.gpsaltcount >= GPS_HOME_WAIT) {
-          // we have a home position
-          runtime.gpshashome = true;
-          runtime.gpshomelat = gpsdata.Latitude;
-          runtime.gpshomelon = gpsdata.Longitude;
-          runtime.gpsasl = gpsdata.Altitude;
-          runtime.osdredraw = true;
-        } else { 
-          delay(1);
+         if(runtime.gpstimeout + GPS_TIMEOUT < millis()) {
+           gpsdata = tempdata; // apply 
+           runtime.gpsacquired = false;
+         }    
+      }
+    } else {
+      runtime.gpstimeout = -1;
+      runtime.gpsacquired = true;
+      gpsdata = tempdata;
+    }
+    
+    // calculate gps data
+    if(!runtime.gpshashome) {
+      // find gps home position under certain conditions
+      if(gpsdata.Status >= GPS_ACCURACY && gpsdata.Satellites >= GPS_REQUIRED_SAT) {
+        // check old vs 
+        if(runtime.gpsaltprev == -1) {
+          runtime.gpsaltprev = gpsdata.Altitude;
+        } else if(fabs(runtime.gpsaltprev - gpsdata.Altitude) > GPS_HOME_SENSITIVITY) {
+          // reset 
+          runtime.gpsaltcount = 0;
+          runtime.gpsaltprev = gpsdata.Altitude;
+        } else {
+          runtime.gpsaltcount = runtime.gpsaltcount + 1;
+          // check
+          if(runtime.gpsaltcount >= GPS_HOME_WAIT) {
+            // we have a home position
+            runtime.gpshashome = true;
+            runtime.gpshomelat = gpsdata.Latitude;
+            runtime.gpshomelon = gpsdata.Longitude;
+            runtime.gpsasl = gpsdata.Altitude;
+            runtime.osdredraw = true;
+          } else { 
+            delay(1);
+          }
         }
       }
-    }
-  } else { 
-    // Climb Rate
-    runtime.gpsclimb = gpsdata.Climbrate < (-1 * GPS_CLIMB_VALUE) ? SYMBOL_CLIMBUP : (gpsdata.Climbrate > GPS_CLIMB_VALUE ? SYMBOL_CLIMBDOWN : SYMBOL_NOCLIMB);
-    
-    // Home Calculations
-    float rads = fabs(runtime.gpshomelat) * 0.0174532925;
-    double scaleLongDown = cos(rads);
-    double scaleLongUp   = 1.0f/cos(rads);
+    } else { 
+      // Climb Rate
+      runtime.gpsclimb = gpsdata.Climbrate < (-1 * GPS_CLIMB_VALUE) ? SYMBOL_CLIMBUP : (gpsdata.Climbrate > GPS_CLIMB_VALUE ? SYMBOL_CLIMBDOWN : SYMBOL_NOCLIMB);
+      
+      // Home Calculations
+      float rads = fabs(runtime.gpshomelat) * 0.0174532925;
+      double scaleLongDown = cos(rads);
+      double scaleLongUp   = 1.0f/cos(rads);
 
-    // Home Distance
-    float dstlat = fabs(runtime.gpshomelat - gpsdata.Latitude) * 111319.5;
-    float dstlon = fabs(runtime.gpshomelon - gpsdata.Longitude) * 111319.5 * scaleLongDown;
+      // Home Distance
+      float dstlat = fabs(runtime.gpshomelat - gpsdata.Latitude) * 111319.5;
+      float dstlon = fabs(runtime.gpshomelon - gpsdata.Longitude) * 111319.5 * scaleLongDown;
 
-    runtime.gpshomedistance = sqrt(sq(dstlat) + sq(dstlon));
+      runtime.gpshomedistance = sqrt(sq(dstlat) + sq(dstlon));
 
-    // Home Bearing
-    dstlat = (runtime.gpshomelat - gpsdata.Latitude);
-    dstlon = (runtime.gpshomelon - gpsdata.Longitude) * scaleLongUp;  
-    long bearing = 90 + (atan2(dstlat, -dstlon) * 57.295775); 
+      // Home Bearing
+      dstlat = (runtime.gpshomelat - gpsdata.Latitude);
+      dstlon = (runtime.gpshomelon - gpsdata.Longitude) * scaleLongUp;  
+      long bearing = 90 + (atan2(dstlat, -dstlon) * 57.295775); 
 
-    // calculate bearing
-    if (bearing < 0) bearing += 360;      // normalization
-    bearing = bearing - 180;              // absolut return direction
-    if (bearing < 0) bearing += 360;      // normalization
-    
-    if(HOME_BEARING == 1) {
-      bearing = bearing - gpsdata.Heading;  // relative home direction
+      // calculate bearing
       if (bearing < 0) bearing += 360;      // normalization
-    }
-    
-    runtime.gpshomebearing = bearing;     // save bearing
-
-    // this is for the fancy heading
-    runtime.gpshomedirection = round((float)(bearing/360.0f) * 16.0f);
-
-    // update travel distance
-    if (runtime.tdistance + GPS_MEASURE_PERIOD <= millis()) {
-      if (gpsdata.Groundspeed > 1.0) {
-        runtime.distance = runtime.distance + (gpsdata.Groundspeed * ((millis() - runtime.tdistance) / 1000.0)); 
+      bearing = bearing - 180;              // absolut return direction
+      if (bearing < 0) bearing += 360;      // normalization
+      
+      if(HOME_BEARING == 1) {
+        bearing = bearing - gpsdata.Heading;  // relative home direction
+        if (bearing < 0) bearing += 360;      // normalization
       }
-      runtime.tdistance = millis();
+      
+      runtime.gpshomebearing = bearing;     // save bearing
+
+      // this is for the fancy heading
+      runtime.gpshomedirection = round((float)(bearing/360.0f) * 16.0f);
+
+      // update travel distance
+      if (runtime.tdistance + GPS_MEASURE_PERIOD <= millis()) {
+        if (gpsdata.Groundspeed > 1.0) {
+          runtime.distance = runtime.distance + (gpsdata.Groundspeed * ((millis() - runtime.tdistance) / 1000.0)); 
+        }
+        runtime.tdistance = millis();
+      }
+     
+      
+      // update flytime
+      if(gpsdata.Altitude - runtime.gpsasl > GPS_MEASURE_FLYTIME) {   
+        runtime.flytime = runtime.flytime + (millis() - runtime.flytimelast);
+      }
+      runtime.flytimelast = millis();
     }
-   
-    
-    // update flytime
-    if(gpsdata.Altitude - runtime.gpsasl > GPS_MEASURE_FLYTIME) {   
-      runtime.flytime = runtime.flytime + (millis() - runtime.flytimelast);
-    }
-    runtime.flytimelast = millis();
-  }
+  #endif
 }
 
 /** 
@@ -325,120 +328,130 @@ void UpdateDisplay() {
     }
 
   #endif 
-  
-  // Check GPS Status
-  if(gpsdata.Status >= GPS_ACCURACY && gpsdata.Satellites >= GPS_REQUIRED_SAT) {
-    
-    // check if we have home position
-    if(!runtime.gpshashome) {
-      // clear osd
-      if(runtime.osdredraw) {
-        // clear
-        runtime.osdredraw = false;
-        osd.clear();
-     
-        // initialize
-        MessageAlert(true, " HOME");
-        
-        // draw fancy progressbar
-        DrawBox(vma(LAYOUT_PROGRESS_X - 1, -1), LAYOUT_PROGRESS_Y - 1, 8, 3);
-      }
-        
-      // set warn
 
-      // open warning
-      runtime.gpswarn = true;
-     
-      // calculate progress
-      int p = (runtime.gpsaltcount * 100 / GPS_HOME_WAIT);
+  #ifndef GPS_ENABLED
+     // clear screen
+     if(runtime.osdredraw) {
+      // clear
+      runtime.osdredraw = false;
+      osd.clear();
+     }
+
+  #else
+    // Check GPS Status
+    if(gpsdata.Status >= GPS_ACCURACY && gpsdata.Satellites >= GPS_REQUIRED_SAT) {
       
-      for(int i = 0; i < 5; i++) {
-        osd.writexy(vma(LAYOUT_PROGRESS_X, -1) + i, LAYOUT_PROGRESS_Y, (p / 20 > i) ? CHAR_WHITE: CHAR_CLEAR);
+      // check if we have home position
+      if(!runtime.gpshashome) {
+        // clear osd
+        if(runtime.osdredraw) {
+          // clear
+          runtime.osdredraw = false;
+          osd.clear();
+       
+          // initialize
+          MessageAlert(true, " HOME");
+          
+          // draw fancy progressbar
+          DrawBox(vma(LAYOUT_PROGRESS_X - 1, -1), LAYOUT_PROGRESS_Y - 1, 8, 3);
+        }
+          
+        // set warn
+
+        // open warning
+        runtime.gpswarn = true;
+       
+        // calculate progress
+        int p = (runtime.gpsaltcount * 100 / GPS_HOME_WAIT);
+        
+        for(int i = 0; i < 5; i++) {
+          osd.writexy(vma(LAYOUT_PROGRESS_X, -1) + i, LAYOUT_PROGRESS_Y, (p / 20 > i) ? CHAR_WHITE: CHAR_CLEAR);
+        }
+        
+      } else {
+
+        // we get positive GPS Values
+        if(runtime.gpswarn) {
+          // clear gps warn mesage
+          runtime.gpswarn = false;
+          runtime.osdredraw = true;      
+        }
+      
+        // one time redraw
+        if(runtime.osdredraw) {
+          // clear 
+          runtime.osdredraw = false;   
+          // clear screen
+          osd.clear();
+          
+          // draw boxes for display
+          if(SHOW_LABELS) {
+            DrawLabelBox(vma(LAYOUT_SPEED_X - 1, -1), vma(LAYOUT_SPEED_Y - 1, 1), 6, 3, 0x60, GetUnitSpeedSymbol(UNIT_SPEED, true));
+            DrawLabelBox(LAYOUT_ALT_X - 1, vma(LAYOUT_ALT_Y - 1, 1), 6, 3, GetUnitSymbol(UNIT_ALTITUDE, true), 0x65);
+          } else {
+            DrawBox(vma(LAYOUT_SPEED_X - 1, -1), vma(LAYOUT_SPEED_Y - 1, 1), 6,3);
+            DrawBox(LAYOUT_ALT_X - 1, vma(LAYOUT_ALT_Y - 1, 1), 6, 3);
+          }
+        }
+        
+        // draw current heading with interpolation
+        if(gpsdata.Heading < (runtime.gpsheading - GPS_HEADING_INTERPOLATE) || gpsdata.Heading > (runtime.gpsheading + GPS_HEADING_INTERPOLATE)) { 
+          DrawThreeDigitValue(vma(LAYOUT_HEADING_X, -1), LAYOUT_HEADING_Y, gpsdata.Heading, SYMBOL_DEGREE);
+          runtime.gpsheading = gpsdata.Heading;
+        }
+        
+        // draw speed
+        DrawFourDigitValue(vma(LAYOUT_SPEED_X, -1), vma(LAYOUT_SPEED_Y, 1), fabs(gpsdata.Groundspeed * UNIT_SPEED), NO_SYMBOL, NO_SYMBOL, FONT_LARGE);
+
+        // calculate and draw altitude
+        float alt = gpsdata.Altitude;
+        if(GPS_ALTITUDE_TYPE == 0) {
+          alt = gpsdata.Altitude - runtime.gpsasl;
+          if(alt < 0 && alt > GPS_AGL_NEGATIVE) alt = 0;
+        }
+     
+        DrawFourDigitValue(LAYOUT_ALT_X, vma(LAYOUT_ALT_Y, 1), fabs(alt * UNIT_ALTITUDE), NO_SYMBOL, NO_SYMBOL, FONT_LARGE);
+        
+        // draw vertical indicator
+        DrawStatus(LAYOUT_CLIMB_X, vma(LAYOUT_CLIMB_Y, 1), true, runtime.gpsclimb);
+        
+        // draw home arrow
+        DrawFancyHeading(vma(LAYOUT_HOMEBEARING_X, -1), LAYOUT_HOMEBEARING_Y, runtime.gpshomedirection);
+
+        // draw home distance
+        DrawDistance(LAYOUT_HOMEDISTANCE_X, vma(LAYOUT_HOMEDISTANCE_Y, 3), runtime.gpshomedistance, SYMBOL_HOME);
+
+        // draw total flight distance
+        DrawDistance(LAYOUT_DISTANCE_X, vma(LAYOUT_DISTANCE_Y, 3), runtime.distance, SYMBOL_FLAG);
+        
+        // travel distance
+        DrawTimer(vma(LAYOUT_FLYTIME_X, -1), vma(LAYOUT_FLYTIME_Y, 3), runtime.flytime, SHOW_LABELS ? SYMBOL_TIMEFLY : NO_SYMBOL, false);
       }
+      
+      
+      // gps coordinates
+      #ifdef GPS_COORDINATES_SHOW
+        // Latitude 
+        DrawCoordinates(vma(LAYOUT_GPSCOORD_X, -1), vma(LAYOUT_GPSCOORD_Y, 3), gpsdata.Latitude, GPS_PRECISION, SHOW_LABELS ? SYMBOL_LAT : NO_SYMBOL);
+        // Longitude
+        DrawCoordinates(vma(LAYOUT_GPSCOORD_X, -1), vma(LAYOUT_GPSCOORD_Y + 1, 3), gpsdata.Longitude, GPS_PRECISION, SHOW_LABELS ? SYMBOL_LON : NO_SYMBOL);
+      #endif
+
       
     } else {
-
-      // we get positive GPS Values
-      if(runtime.gpswarn) {
-        // clear gps warn mesage
-        runtime.gpswarn = false;
-        runtime.osdredraw = true;      
-      }
-    
-      // one time redraw
-      if(runtime.osdredraw) {
-        // clear 
-        runtime.osdredraw = false;   
+      
+      if(!runtime.gpswarn) {
         // clear screen
         osd.clear();
         
-        // draw boxes for display
-        if(SHOW_LABELS) {
-          DrawLabelBox(vma(LAYOUT_SPEED_X - 1, -1), vma(LAYOUT_SPEED_Y - 1, 1), 6, 3, 0x60, GetUnitSpeedSymbol(UNIT_SPEED, true));
-          DrawLabelBox(LAYOUT_ALT_X - 1, vma(LAYOUT_ALT_Y - 1, 1), 6, 3, GetUnitSymbol(UNIT_ALTITUDE, true), 0x65);
-        } else {
-          DrawBox(vma(LAYOUT_SPEED_X - 1, -1), vma(LAYOUT_SPEED_Y - 1, 1), 6,3);
-          DrawBox(LAYOUT_ALT_X - 1, vma(LAYOUT_ALT_Y - 1, 1), 6, 3);
-        }
+        DrawLogo();
+        
+        // show message
+        runtime.gpswarn = true;
+        MessageAlert(true, "NO GPS");
       }
-      
-      // draw current heading with interpolation
-      if(gpsdata.Heading < (runtime.gpsheading - GPS_HEADING_INTERPOLATE) || gpsdata.Heading > (runtime.gpsheading + GPS_HEADING_INTERPOLATE)) { 
-        DrawThreeDigitValue(vma(LAYOUT_HEADING_X, -1), LAYOUT_HEADING_Y, gpsdata.Heading, SYMBOL_DEGREE);
-        runtime.gpsheading = gpsdata.Heading;
-      }
-      
-      // draw speed
-      DrawFourDigitValue(vma(LAYOUT_SPEED_X, -1), vma(LAYOUT_SPEED_Y, 1), fabs(gpsdata.Groundspeed * UNIT_SPEED), NO_SYMBOL, NO_SYMBOL, FONT_LARGE);
-
-      // calculate and draw altitude
-      float alt = gpsdata.Altitude;
-      if(GPS_ALTITUDE_TYPE == 0) {
-        alt = gpsdata.Altitude - runtime.gpsasl;
-        if(alt < 0 && alt > GPS_AGL_NEGATIVE) alt = 0;
-      }
-   
-      DrawFourDigitValue(LAYOUT_ALT_X, vma(LAYOUT_ALT_Y, 1), fabs(alt * UNIT_ALTITUDE), NO_SYMBOL, NO_SYMBOL, FONT_LARGE);
-      
-      // draw vertical indicator
-      DrawStatus(LAYOUT_CLIMB_X, vma(LAYOUT_CLIMB_Y, 1), true, runtime.gpsclimb);
-      
-      // draw home arrow
-      DrawFancyHeading(vma(LAYOUT_HOMEBEARING_X, -1), LAYOUT_HOMEBEARING_Y, runtime.gpshomedirection);
-
-      // draw home distance
-      DrawDistance(LAYOUT_HOMEDISTANCE_X, vma(LAYOUT_HOMEDISTANCE_Y, 3), runtime.gpshomedistance, SYMBOL_HOME);
-
-      // draw total flight distance
-      DrawDistance(LAYOUT_DISTANCE_X, vma(LAYOUT_DISTANCE_Y, 3), runtime.distance, SYMBOL_FLAG);
-      
-      // travel distance
-      DrawTimer(vma(LAYOUT_FLYTIME_X, -1), vma(LAYOUT_FLYTIME_Y, 3), runtime.flytime, SHOW_LABELS ? SYMBOL_TIMEFLY : NO_SYMBOL, false);
     }
-    
-    
-    // gps coordinates
-    #ifdef GPS_COORDINATES_SHOW
-      // Latitude 
-      DrawCoordinates(vma(LAYOUT_GPSCOORD_X, -1), vma(LAYOUT_GPSCOORD_Y, 3), gpsdata.Latitude, GPS_PRECISION, SHOW_LABELS ? SYMBOL_LAT : NO_SYMBOL);
-      // Longitude
-      DrawCoordinates(vma(LAYOUT_GPSCOORD_X, -1), vma(LAYOUT_GPSCOORD_Y + 1, 3), gpsdata.Longitude, GPS_PRECISION, SHOW_LABELS ? SYMBOL_LON : NO_SYMBOL);
-    #endif
-
-    
-  } else {
-    
-    if(!runtime.gpswarn) {
-      // clear screen
-      osd.clear();
-      
-      DrawLogo();
-      
-      // show message
-      runtime.gpswarn = true;
-      MessageAlert(true, "NO GPS");
-    }
-  }
+  #endif
 }
 
 

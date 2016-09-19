@@ -52,6 +52,16 @@ tweak to your likening.
   
 #define SHOW_LABELS true
 
+/**
+  * (Enable GPS)
+  * 
+  * BitsyOSD can be run with and without GPS module attached.
+  *
+  * Uncomment the line below to enable GPS
+  *
+  */
+
+// #define GPS_ENABLED
 
 /**
   * (GPS Parser)
@@ -62,10 +72,11 @@ tweak to your likening.
   *
   */
 
+
 //#define GPS_PARSER_NEMA
 //#define GPS_PARSER_DJI
 //#define GPS_PARSER_UBLOX  // Binary UBLOX Protocol - not implemented yet
-#define GPS_PARSER_SIM
+//#define GPS_PARSER_SIM
 
 
 /** 
@@ -232,8 +243,8 @@ tweak to your likening.
   * 4s = 3  - Maximum supported by the Hardware
   */
 
-#define TYPE_BATTERY1 3
-#define TYPE_BATTERY2 3
+#define TYPE_BATTERY1 1
+#define TYPE_BATTERY2 1
 
 
 

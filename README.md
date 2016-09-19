@@ -19,6 +19,8 @@ The OSD itself has a fixed layout that provides all essential information and on
 
 BitsyOSD supports the standard NEMA GPS as well DJI's Naza protocol.
 
+BitsyOSD also supports no GPS and displays GPS unrelated values - making BitsyOSD a all around solution.
+
 
 ## Features
 
@@ -38,6 +40,7 @@ Currently BitsyOSD implements the following values in a fixed layout that is con
 * Battery 2 Voltage Monitoring
 * Low Battery Alerts
 * RSSI (*)
+* New in 1.4: No GPS Mode - enables a super minimal OSD mode
 
 **Please be aware that BitsyOSD doesn't have any outside configuration possibilities and all setup needs to be done via the code base**
 
