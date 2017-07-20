@@ -37,7 +37,7 @@ float ReadVoltage(int pin, int divider) {
   voltageRaw += raw[i];
 
   // return voltage
-  float voltage = float(voltageRaw) * divider / 1023; 
+  float voltage = (float(voltageRaw) * divider) / 1023; 
   
   return voltage;    
 }

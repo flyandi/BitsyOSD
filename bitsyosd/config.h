@@ -61,7 +61,7 @@ tweak to your likening.
   *
   */
 
-// #define GPS_ENABLED
+//#define GPS_ENABLED
 
 /**
   * (GPS Parser)
@@ -226,9 +226,13 @@ tweak to your likening.
   * If you enable the voltage display, you need to set the voltage divider to see proper
   * Battery voltages on your screen. 
   *
+  * Nominal values
+  * 2 Cell = 11
+  * 3 Cell = 101
+  * 4 Cell = 9
   */
 
-#define VOLTAGE_DIVIDER_BATTERY1 10
+#define VOLTAGE_DIVIDER_BATTERY1 10.75
 #define VOLTAGE_DIVIDER_BATTERY2 10
 
 

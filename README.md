@@ -70,8 +70,7 @@ You don't need to be an code expert but I assume that you have the following thi
 * GIT installed
 * MinimOSD hardware
 * USB FTDI TTL serial adapter
-* Custom GPS Cable as described on [https://code.google.com/p/minnazaosd/wiki/SolderGPS]
-
+* GPS Module and connection cable
 
 Next you need to download this project. Navigate to a directory where you want to keep the BitsyOSD code and clone the project via git.
 
@@ -113,10 +112,17 @@ Make sure the MinimOSD is connected to your computer via the USB FTDI TTL serial
 
 If you installed the libraries as well uploaded the font correctly, you now have a working MinimOSD with BitsyOSD. 
 
+## Breakout Board
+
+This project also includes the break-out board schematics for Eagle. The break-out board follows the standard flight controller size of 32x32mm and routes all necessary hook up points to one header.
+
+![Board](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-pcb-board)
+
+Go to the board directory to learn more.
 
 ## License
 
-Copyright (c) 2016.  All rights reserved.
+Copyright (c) 2017.  All rights reserved.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
