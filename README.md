@@ -116,7 +116,7 @@ If you installed the libraries as well uploaded the font correctly, you now have
 
 This project also includes the break-out board schematics for Eagle. The break-out board follows the standard flight controller size of 32x32mm and routes all necessary hook up points to one header.
 
-![Board](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-pcb-board)
+![Board](https://github.com/FPVTools/BitsyOSD/blob/master/docs/bitsyosd-pcb-board.png)
 
 Go to the board directory to learn more.
 
