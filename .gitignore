@@ -1,4 +1,5 @@
 # BitsyOSD Ignores
+.idea
 internal/
 .DS_STORE
 node_modules/
