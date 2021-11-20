@@ -112,7 +112,11 @@ var run = function() {
 
 if (!SERIAL_DEVICE) {
   // display ports
-  SerialPort.list(function (err, ports) {
+  SerialPort.list().then(ports => {
+    if(!ports.length) {
+      console.error("There are no serial ports detected");
+      return;
+    }
     // show ports
     ports.forEach(function(port, index) {
       console.log(index + ' - ' + port.comName);
